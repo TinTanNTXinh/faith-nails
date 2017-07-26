@@ -1,0 +1,65 @@
+<!-- Confirm Dialog -->
+<p-confirmDialog header="Confirmation" icon="fa ui-icon-warning" width="425"></p-confirmDialog>
+
+<div class="ui-g">
+  <div class="ui-g-12">
+    <div class="card card-w-title">
+      <h1>{{title}}</h1>
+      <p-tabView [activeIndex]="active_index_tabview" (onChange)="changeTabpanel($event)">
+        <p-tabPanel header="List" leftIcon="ui-icon-check">
+
+          <!-- Filter -->
+          <div class="card card-w-title">
+            <p-fieldset legend="Filter" toggleable="true">
+              <div class="ui-g form-group">
+                <div class="ui-g-12 ui-md-4">
+                  <span class="md-inputfield">
+                      <input type="text" pInputText>
+                      <label>Nickname</label>
+                  </span>
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <span class="md-inputfield">
+                      <p-calendar [showIcon]="true"></p-calendar>
+                      <label>From date</label>
+                  </span>
+                </div>
+
+                <div class="ui-g-12 ui-md-4">
+                  <span class="md-inputfield">
+                      <p-calendar [showIcon]="true"></p-calendar>
+                      <label>To date</label>
+                  </span>
+                </div>
+                <div class="ui-g-12">
+                  <button type="button" label="Filter" pButton icon="ui-icon-search" class="cyan-btn"></button>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+
+          <div class="card card-w-title">
+
+            <!-- DataTable -->
+            <p-dataTable [value]="commissions"
+                         selectionMode="single"
+                         [(selection)]="commissions[0]"
+                         [paginator]="true"
+                         [rows]="10"
+                         [responsive]="true"
+                         [resizableColumns]="true"
+                         (onRowSelect)="onRowSelect($event)">
+              <p-header> List of {{title}}</p-header>
+              <p-footer>There are {{commissions.length}} {{title}}</p-footer>
+              <p-column field="date" header="Date" [sortable]="true"></p-column>
+              <p-column field="customer_name" header="Customer" [sortable]="true"></p-column>
+              <p-column field="item_name" header="Item" [sortable]="true"></p-column>
+              <p-column field="money" header="Money" [sortable]="true"></p-column>
+            </p-dataTable>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<!-- Confirm Dialog -->
+<p-confirmDialog header="Confirmation" icon="fa ui-icon-warning" width="425"></p-confirmDialog>
+
+<div class="ui-g">
+  <div class="ui-g-12">
+    <div class="card card-w-title">
+      <h1>{{title}}</h1>
+      <p-tabView [activeIndex]="active_index_tabview" (onChange)="changeTabpanel($event)">
+        <p-tabPanel header="List" leftIcon="ui-icon-check">
+
+          <!-- Filter -->
+          <div class="card card-w-title">
+            <p-fieldset legend="Filter" toggleable="true">
+              <div class="ui-g form-group">
+
+                <div class="ui-g-12 ui-md-4">
+                  <span class="md-inputfield">
+                      <p-calendar [showIcon]="true"></p-calendar>
+                      <label>Date</label>
+                  </span>
+                </div>
+
+                <div class="ui-g-12">
+                  <button type="button" label="Filter" pButton icon="ui-icon-search" class="cyan-btn"></button>
+                </div>
+              </div>
+            </p-fieldset>
+          </div>
+
+          <div class="card card-w-title">
+            <p-schedule slotDuration="00:15:00" [events]="events" [header]="header" defaultDate="2017-02-01" [eventLimit]="4" [editable]="true"
+                        (onDayClick)="handleDayClick($event)" (onEventClick)="handleEventClick($event)"></p-schedule>
+
+            <p-dialog header="Event Details" [(visible)]="dialogVisible" [responsive]="true" showEffect="fade" [modal]="false" [contentStyle]="{'overflow':'visible'}"
+                      [style]="{'overflow':'visible'}" [resizable]="false">
+              <div class="ui-grid ui-grid-responsive ui-fluid" *ngIf="event">
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label for="title">Title</label></div>
+                  <div class="ui-grid-col-8"><input pInputText id="title" [(ngModel)]="event.title" /></div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label for="customer">Customer</label></div>
+                  <div class="ui-grid-col-8"><input pInputText id="customer" [(ngModel)]="event.customer_id" /></div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label for="item">Item</label></div>
+                  <div class="ui-grid-col-8"><input pInputText id="item" [(ngModel)]="event.item_id" /></div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label for="quantum">Quantum</label></div>
+                  <div class="ui-grid-col-8"><input pInputText id="quantum" [(ngModel)]="event.quantum" /></div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label for="start">Start</label></div>
+                  <div class="ui-grid-col-8"><p-calendar [(ngModel)]="event.start" dateFormat="yy-mm-dd" dataType="string"></p-calendar></div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label for="end">End</label></div>
+                  <div class="ui-grid-col-8"><p-calendar [(ngModel)]="event.end" dateFormat="yy-mm-dd" dataType="string"></p-calendar></div>
+                </div>
+                <div class="ui-grid-row">
+                  <div class="ui-grid-col-4"><label for="allday">All Day</label></div>
+                  <div class="ui-grid-col-8"><p-checkbox [(ngModel)]="event.allDay" binary="checkbox"></p-checkbox></div>
+                </div>
+              </div>
+              <p-footer>
+                <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                  <button type="button" pButton icon="fa-close" (click)="deleteEvent()" label="Delete" [disabled]="!event?.id"></button>
+                  <button type="button" pButton icon="fa-check" (click)="saveEvent()" label="Save" [disabled]="!event?.start"></button>
+                </div>
+              </p-footer>
+            </p-dialog>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
+    </div>
+  </div>
+</div>

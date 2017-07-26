@@ -1,0 +1,89 @@
+<!-- Confirm Dialog -->
+<p-confirmDialog header="Confirmation" icon="fa ui-icon-warning" width="425"></p-confirmDialog>
+
+<div class="ui-g">
+    <div class="ui-g-12">
+        <div class="card card-w-title">
+            <h1>{{title}}</h1>
+            <p-tabView [activeIndex]="active_index_tabview" (onChange)="changeTabPanel($event)">
+                <!-- Messages -->
+                <!--<p-messages [(value)]="msgs" ></p-messages>-->
+                <p-growl [(value)]="msgs"></p-growl>
+                <p-tabPanel header="List" leftIcon="ui-icon-check">
+                    <!-- Filter -->
+                    <p-fieldset legend="Filter" toggleable="true">
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-4">
+                <span class="md-inputfield">
+                    <p-autoComplete field="name" placeholder="Position"
+                                    [(ngModel)]="position_ac"
+                                    [suggestions]="filterdpositions"
+                                    (completeMethod)="searchPosition($event)"
+                                    (onDropdownClick)="handleDropdownClickPositon($event)"
+                                    [size]="30"
+                                    [minLength]="1"
+                                    [dropdown]="true">
+                    </p-autoComplete>
+                  </span>
+                            </div>
+
+                            <div class="ui-g-12">
+                                <button (click)="search()" type="button" label="Filter" pButton icon="ui-icon-search" class="cyan-btn"></button>
+                            </div>
+                        </div>
+                    </p-fieldset>
+
+                    <br>
+
+
+                    <!-- Toolbar -->
+                    <p-toolbar>
+                        <div class="ui-toolbar-group-left">
+                            <button (click)="actionCrud('ADD')" pButton type="button" label="New" icon="ui-icon-add" class="green-btn"></button>
+                            <button (click)="actionCrud('EDIT')" pButton type="button" label="Edit" icon="ui-icon-edit" class="orange-btn"></button>
+                            <button (click)="actionCrud('DELETE')" pButton type="button" label="Delete" icon="ui-icon-delete" class="pink-btn"></button>
+                        </div>
+                    </p-toolbar>
+
+                    <!-- DataTable -->
+                    <p-dataTable [value]="positions" selectionMode="single" [paginator]="true" [rows]="10" [responsive]="true" [resizableColumns]="true"
+                                 (onRowSelect)="onRowSelect($event)">
+                        <p-header> List of {{title}}</p-header>
+                        <p-footer>There are {{positions.length}} {{title}}</p-footer>
+                        <p-column field="name" header="Name" [sortable]="true"></p-column>
+                        <p-column field="description" header="Description" [sortable]="true"></p-column>
+                    </p-dataTable>
+
+                </p-tabPanel>
+
+                <p-tabPanel header="Add/Edit" leftIcon="ui-icon-edit">
+                    <!-- Reactive Form -->
+                    <form [formGroup]="oneFormGroup" novalidate>
+                        <div class="ui-g form-group">
+                            <div class="ui-g-12 ui-md-4">
+                <span class="md-inputfield">
+                  <input formControlName="name" type="text" pInputText>
+                  <label>Name</label>
+                </span>
+                            </div>
+                            <div class="ui-g-12 ui-md-4">
+                <span class="md-inputfield">
+                    <input formControlName="description" type="text" pInputText>
+                    <label>Description</label>
+                </span>
+                            </div>
+                            <div class="ui-g-12">
+                                <button (click)="addOne()" [disabled]="!oneFormGroup.valid" *ngIf="!isEdit" type="button" label="Add" pButton icon="ui-icon-plus"
+                                        class="green-btn"></button>
+                                <button (click)="clearOne()" type="button" label="Clear" *ngIf="!isEdit" pButton icon="ui-icon-clear"></button>
+                                <button (click)="updateOne()" [disabled]="!oneFormGroup.valid" *ngIf="isEdit" type="button" label="Update" pButton icon="ui-icon-update"
+                                        class="orange-btn"></button>
+                                <button (click)="displayEditBtn(false)" type="button" label="Cancel" *ngIf="isEdit" pButton icon="ui-icon-cancel"></button>
+                            </div>
+                        </div>
+                    </form>
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>
